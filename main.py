@@ -1,4 +1,18 @@
 import random
+import os
+
+class Colors: 
+    BLACK = '\033[30m' 
+    RED = '\033[31m' 
+    GREEN = '\033[32m' 
+    YELLOW = '\033[33m' 
+    BLUE = '\033[34m' 
+    MAGENTA = '\033[35m' 
+    CYAN = '\033[36m' 
+    WHITE = '\033[37m' 
+    UNDERLINE = '\033[4m' 
+    RESET = '\033[0m'
+
 
 class zrae():
     def __init__(self,n) -> None:
@@ -62,11 +76,11 @@ class zrae():
             for j in range(self.n):
                 if self.visited[i][j]:
                     cnt+=1
-                    print(self.board[i][j],end=" ")
+                    print(Colors.MAGENTA+str(self.board[i][j])+Colors.RESET,end=" ")
                 elif self.flag[i][j]:
-                    print('F',end=" ")
+                    print(Colors.BLUE+'F'+Colors.RESET,end=" ")
                 else:
-                    print('P',end=" ")
+                    print(Colors.GREEN+'P'+Colors.RESET,end=" ")
             print()
 
     def click(self):
@@ -95,37 +109,38 @@ class zrae():
         cnt2 = 0
         for i in range(self.n):
             for j in range(self.n):
-                if self.flag[i][j]:
-                    cnt += 1
-                elif self.visited[i][j]:
+                if self.visited[i][j]:
                     cnt2 += 1
+                elif self.flag[i][j]:
+                    cnt += 1
         self.cntflag = cnt
         if cnt == self.cnt and cnt2 == self.n*self.n-self.cnt:
             print("You Win!")
             return True
 
     def get_ui(self):
-        print("flag :",self.cnt - self.cntflag)
+        print("cur flag cnt :",self.cnt - self.cntflag)
         print()
 
 def main():
-    a = zrae(2)
+    a = zrae(10)
 
     while True:
         print()
         a.get_ui()
-        choice = int(input("flag : 1 , click : 2"))
-
+        choice = int(input("flag : 1 , click : 2\n"))
+        
         if choice%2 == 1:
             a.flagfunc()
         else:
             if a.click():
                 break
-
+        os.system("clear")
         a.get_board2()
         if a.GameWin():
             break
             
 
 if __name__ == "__main__":
+    os.system("clear")
     main()
